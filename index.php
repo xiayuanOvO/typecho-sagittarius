@@ -1,12 +1,12 @@
 <?php
 
 /**
- * 这是typecho系统的一套默认皮肤。你可以在<a href="http://typecho.org">typecho的官方网站</a>获得更多关于此皮肤的信息
+ * 这是一款 Typecho 主题，模仿微博风格。
  * 
- * @package Fuck Theme 
+ * @package Sagittarius Theme 
  * @author 夏源
- * @version 1.0.0
- * @link https://github.com/xiayuanOvO
+ * @version 0.0.1
+ * @link https://gitee.com/xiayuanOvO/typecho-sagittarius
  */
 // 引入 dump 
 require_once dirname(__FILE__, 4) . '/vendor/autoload.php';
