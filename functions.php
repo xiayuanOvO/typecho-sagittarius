@@ -19,6 +19,31 @@ function setConfigLayoutFooter()
 }
 
 /**
+ * 按作者邮箱获取头像 URL，同页内相同作者只计算一次
+ *
+ * @param string $mail 作者邮箱
+ * @param mixed $options 主题选项（含 avatarUrl）
+ * @return string 头像 URL
+ */
+function getAuthorAvatar($mail, $options)
+{
+    static $cache = [];
+    if (isset($cache[$mail])) {
+        return $cache[$mail];
+    }
+    $avatarUrl = $options->avatarUrl;
+    if ($avatarUrl == 'loli') {
+        $url = 'https://gravatar.loli.net/avatar/' . md5($mail) . '?s=128&r=X';
+    } else if ($avatarUrl == 'gravatar') {
+        $url = 'https://gravatar.com/avatar/' . md5($mail) . '?s=128&r=X';
+    } else {
+        $url = 'https://cdn.v2ex.com/gravatar/' . md5($mail) . '?s=128&r=X';
+    }
+    $cache[$mail] = $url;
+    return $url;
+}
+
+/**
  * 主题配置
  * 
  * @param Typecho_Widget_Helper_Form $form
@@ -27,27 +52,62 @@ function setConfigLayoutFooter()
 function themeConfig($form)
 {
     // setConfigLayoutHeader();
-    addTitle('全局设置');
+    addTitle($form, '全局设置');
 
     // 头像源
     addSelect($form, 'avatarUrl', array(
         'v2ex' => _t('v2ex'),
         'loli' => _t('loli'),
         'gravatar' => _t('gravatar')
-    ), 'v2ex', _t('头像源'), NULL);
+    ), 'v2ex', '头像源', '');
 
     // 背景模式
     addSelect($form, 'bgMode', array(
         'image' => _t('图片模式'),
         'color' => _t('纯色模式')
-    ), 'image', _t('背景模式'), _t('切换后，下方会自动显示对应的输入框'));
+    ), 'image', '背景模式', '切换后，下方会自动显示对应的输入框');
 
     // 背景图片地址
-    addText($form, 'bgImage', NULL, _t('背景图片 URL'), _t('完整路径，包括 http:// 或 https://'));
+    addText($form, 'bgImage', NULL, '背景图片 URL', '完整路径，包括 http:// 或 https://');
 
     // 背景颜色代码
-    addText($form, 'bgColor', '#FFFFFF', _t('背景颜色代码'), _t('请输入 Hex 颜色值，例如 #f0f0f0'));
+    addText($form, 'bgColor', '#FFFFFF', '背景颜色代码', '请输入 Hex 颜色值，例如 #f0f0f0');
 
+
+    addTitle($form, '主页设置');
+
+    // 头部图片
+    addText($form, 'headerImage', NULL, '顶部图片 URL', '');
+
+    // 侧边栏统计
+    addCheckbox($form, 'sidebarStat', array(
+        'posts' => _t('文章总数'),
+        'comments' => _t('评论总数'),
+        'tags' => _t('标签总数'),
+        'categories' => _t('分类总数'),
+    ), array('posts', 'comments', 'tags'), '侧边栏统计', '勾选后，会在侧边栏显示统计数据（推荐勾选3个）');
+
+    // 侧边栏资料
+    addCheckbox($form, 'sidebarInfo', array(
+        'hometown' => _t('家乡'),
+        'email' => _t('邮箱'),
+        'birthday' => _t('生日'),
+        'intro' => _t('简介'),
+        'links' => _t('链接'),
+    ), array('hometown', 'email', 'birthday', 'intro', 'links'), '侧边栏资料', '勾选后，会在侧边栏显示资料');
+
+    
+    // 邮箱
+    addText($form, 'email', NULL, '邮箱', '');
+    // 家乡
+    addText($form, 'hometown', NULL, '家乡', '');
+    // 生日
+    addText($form, 'birthday', NULL, '生日', '');
+    // 简介
+    addText($form, 'intro', NULL, '简介', '');
+    // 链接
+    addText($form, 'links', NULL, '链接', '');
+    
     // setConfigLayoutFooter();
     setStyle();
     setScript();
@@ -84,6 +144,8 @@ function setStyle()
             height: min-content;
 
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 200px;
         }
 
         .config-sidebar ul {
@@ -198,15 +260,29 @@ function setScript()
 }
 
 /**
- * 添加标题
- * 
- * @param string $title 标题
+ * 添加标题（作为表单项插入，保证按添加顺序显示在对应表单项上方）
+ *
+ * @param \Typecho\Widget\Helper\Form $form 表单对象
+ * @param string $title 标题文字
  */
-function addTitle($title = '')
+function addTitle($form, $title = '')
 {
-    ?>
-    <h2><?php echo $title; ?></h2>
-    <?php
+    $layout = new \Typecho\Widget\Helper\Layout('h2');
+    $layout->html(_t($title));
+    $form->addItem($layout);
+}
+
+/**
+ * 添加子标题
+ * 
+ * @param \Typecho\Widget\Helper\Form $form 表单对象
+ * @param string $title 标题文字
+ */
+function addSubTitle($form, $title = '')
+{
+    $layout = new \Typecho\Widget\Helper\Layout('h3');
+    $layout->html(_t($title));
+    $form->addItem($layout);
 }
 
 /**
@@ -225,8 +301,8 @@ function addSelect($form, $name = '', $options = [], $default = '', $title = '',
         $name,
         $options,
         $default,
-        $title,
-        $description
+        _t($title),
+        _t($description)
     ));
 }
 
@@ -244,7 +320,48 @@ function addText($form, $name = '', $default = '', $title = '', $description = '
         $name,
         null,   // options，Text 输入框不需要，需与 Element 构造函数第 2 参数 ?array 一致
         $default,
-        $title,
-        $description
+        _t($title),
+        _t($description)
     ));
+}
+
+/**
+ * 添加复选框
+ * 
+ * @param Typecho_Widget_Helper_Form $form 表单对象
+ * @param string $name 字段名
+ * @param array $options 选项数组
+ * @param array $default 默认值
+ * @param string $title 标题
+ * @param string $description 描述
+ */
+function addCheckbox($form, $name = '', $options = [], $default = '', $title = '', $description = '') {
+    $form->addInput(new Typecho_Widget_Helper_Form_Element_Checkbox(
+        $name,        // 表单字段名称 (name)
+        $options, // 选项数据 [value => label]
+        $default,         // 默认选中的值 (注意是数组)
+        _t($title),     // 描述性标题
+        _t($description) // 表单介绍
+    ));
+}
+
+/**
+ * 获取 SVG 文件内容
+ * 
+ * @param string $name SVG 文件名
+ * @param string $class SVG 类名
+ * @return string SVG 文件内容
+ */
+function getSvg($name, $class = '') {
+    // 假设你的 SVG 都放在主题目录的 icons 文件夹下
+    $file = dirname(__FILE__) . '/assets/icons/' . $name . '.svg';
+    if (file_exists($file)) {
+        $content = file_get_contents($file);
+        // 如果传入了 class，则注入到 svg 标签中
+        if ($class) {
+            $content = str_replace('<svg', '<svg class="' . $class . '"', $content);
+        }
+        return $content;
+    }
+    return '';
 }
