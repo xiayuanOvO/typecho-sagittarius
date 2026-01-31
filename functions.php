@@ -230,6 +230,15 @@ function addSelect($form, $name = '', $options = [], $default = '', $title = '',
     ));
 }
 
+/**
+ * 添加文本框
+ * 
+ * @param Typecho_Widget_Helper_Form $form 表单对象
+ * @param string $name 字段名
+ * @param string $default 默认值
+ * @param string $title 标题
+ * @param string $description 描述
+ */
 function addText($form, $name = '', $default = '', $title = '', $description = '') {
     $form->addInput(new Typecho_Widget_Helper_Form_Element_Text(
         $name,

@@ -7,4 +7,3 @@
     <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/index.css'); ?>">
 </head>
 <body>
-    

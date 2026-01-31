@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 这是typecho系统的一套默认皮肤。你可以在<a href="http://typecho.org">typecho的官方网站</a>获得更多关于此皮肤的信息
  * 
@@ -7,10 +8,9 @@
  * @version 1.0.0
  * @link https://github.com/xiayuanOvO
  */
-$this->need('header.php');
-?>
 
-<?php
+$this->need('header.php');
+
 // 将头像转为MD5
 $avatarUrl = $this->options->avatarUrl;
 
@@ -30,7 +30,6 @@ if ($avatarUrl == 'loli') {
             <div class="post-item">
                 <div class="post__sidebar">
                     <a class="author__avatar" href="<?php $this->author->permalink(); ?>" title="<?php $this->author(); ?>">
-                        <!-- 头像源 -->
                         <?php if ($avatarUrl == 'gravatar'): ?>
                             <?php echo $this->author->gravatar(128); ?>
                         <?php else: ?>
@@ -46,7 +45,7 @@ if ($avatarUrl == 'loli') {
                         </div>
                     </div>
                     <div class="post__content">
-                        <?php $this->excerpt(50, '...'); ?>
+                        <?php $this->excerpt(80, '...'); ?>
                     </div>
                 </div>
             </div>
@@ -59,7 +58,6 @@ if ($avatarUrl == 'loli') {
 <script>
     document.querySelectorAll('.meta__date').forEach(el => {
         const time = parseInt(el.getAttribute('time'));
-        console.log(time);
 
         const now = Math.floor(Date.now() / 1000);
         const diff = now - time;

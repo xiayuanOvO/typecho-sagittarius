@@ -50,8 +50,13 @@ body {
   border-radius: 8px;
 }
 
-.tab-item.active {
-  background-color: var(--color-bg);
+.tab-item:hover a {
+  color: var(--primary-color);
+}
+
+.tab-item.active a {
+  color: var(--primary-color);
+  font-weight: 500 ;
 }
 
 .post-item {
@@ -59,7 +64,7 @@ body {
   gap: 16px;
   background-color: var(--color-white);
   padding: 16px 18px;
-  padding-bottom: 0;
+  padding-bottom: 8px;
   border-radius: 4px;
   margin-bottom: 8px;
 }
