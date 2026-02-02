@@ -65,13 +65,13 @@ function themeConfig($form)
     addSelect($form, 'bgMode', array(
         'image' => _t('图片模式'),
         'color' => _t('纯色模式')
-    ), 'image', '背景模式', '切换后，下方会自动显示对应的输入框');
+    ), 'color', '背景模式', '切换后，下方会自动显示对应的输入框');
 
     // 背景图片地址
-    addText($form, 'bgImage', NULL, '背景图片 URL', '完整路径，包括 http:// 或 https://');
+    addText($form, 'bgImage', '/assets/images/bg.jpg', '背景图片 URL', '完整路径，包括 http:// 或 https://');
 
     // 背景颜色代码
-    addText($form, 'bgColor', '#FFFFFF', '背景颜色代码', '请输入 Hex 颜色值，例如 #f0f0f0');
+    addText($form, 'bgColor', '#f0f0f0', '背景颜色代码', '请输入 Hex 颜色值，例如 #f0f0f0');
 
 
     addTitle($form, '主页设置');
@@ -96,7 +96,7 @@ function themeConfig($form)
         'links' => _t('链接'),
     ), array('hometown', 'email', 'birthday', 'intro', 'links'), '侧边栏资料', '勾选后，会在侧边栏显示资料');
 
-    
+
     // 邮箱
     addText($form, 'email', NULL, '邮箱', '');
     // 家乡
@@ -107,7 +107,7 @@ function themeConfig($form)
     addText($form, 'intro', NULL, '简介', '');
     // 链接
     addText($form, 'links', NULL, '链接', '');
-    
+
     // setConfigLayoutFooter();
     setStyle();
     setScript();
@@ -239,17 +239,11 @@ function setScript()
             document.addEventListener('keydown', function (e) {
                 if ((e.ctrlKey || e.metaKey) && e.keyCode === 83) {
                     e.preventDefault();
-
-                    // 1. 找到 Typecho 的提交按钮
-                    // Typecho 默认的提交按钮通常是 type="submit"
+                    // 提交
                     const submitBtn = document.querySelector('button[type="submit"]');
-
                     if (submitBtn) {
-                        // 2. 视觉反馈：改变按钮文字或状态，让用户知道正在保存
                         // submitBtn.innerText = "正在保存...";
                         // submitBtn.style.opacity = "0.7";
-
-                        // 3. 触发点击保存
                         submitBtn.click();
                     }
                 }
@@ -260,7 +254,7 @@ function setScript()
 }
 
 /**
- * 添加标题（作为表单项插入，保证按添加顺序显示在对应表单项上方）
+ * 添加标题
  *
  * @param \Typecho\Widget\Helper\Form $form 表单对象
  * @param string $title 标题文字
@@ -315,10 +309,11 @@ function addSelect($form, $name = '', $options = [], $default = '', $title = '',
  * @param string $title 标题
  * @param string $description 描述
  */
-function addText($form, $name = '', $default = '', $title = '', $description = '') {
+function addText($form, $name = '', $default = '', $title = '', $description = '')
+{
     $form->addInput(new Typecho_Widget_Helper_Form_Element_Text(
         $name,
-        null,   // options，Text 输入框不需要，需与 Element 构造函数第 2 参数 ?array 一致
+        null,
         $default,
         _t($title),
         _t($description)
@@ -330,18 +325,19 @@ function addText($form, $name = '', $default = '', $title = '', $description = '
  * 
  * @param Typecho_Widget_Helper_Form $form 表单对象
  * @param string $name 字段名
- * @param array $options 选项数组
- * @param array $default 默认值
+ * @param array $options 选项数组 [value => label]
+ * @param array $default 默认值(注意是数组)
  * @param string $title 标题
  * @param string $description 描述
  */
-function addCheckbox($form, $name = '', $options = [], $default = '', $title = '', $description = '') {
+function addCheckbox($form, $name = '', $options = [], $default = '', $title = '', $description = '')
+{
     $form->addInput(new Typecho_Widget_Helper_Form_Element_Checkbox(
-        $name,        // 表单字段名称 (name)
-        $options, // 选项数据 [value => label]
-        $default,         // 默认选中的值 (注意是数组)
-        _t($title),     // 描述性标题
-        _t($description) // 表单介绍
+        $name,
+        $options,
+        $default,
+        _t($title),
+        _t($description)
     ));
 }
 
@@ -352,8 +348,8 @@ function addCheckbox($form, $name = '', $options = [], $default = '', $title = '
  * @param string $class SVG 类名
  * @return string SVG 文件内容
  */
-function getSvg($name, $class = '') {
-    // 假设你的 SVG 都放在主题目录的 icons 文件夹下
+function getSvg($name, $class = '')
+{
     $file = dirname(__FILE__) . '/assets/icons/' . $name . '.svg';
     if (file_exists($file)) {
         $content = file_get_contents($file);
@@ -364,4 +360,38 @@ function getSvg($name, $class = '') {
         return $content;
     }
     return '';
+}
+
+/**
+ * 获取图片 URL
+ * @param string $path 原始路径字符串
+ * @return string 图片 URL
+ */
+function getImageUrl($path)
+{
+    $path = (string) $path; // 防止空值
+    if (preg_match('/^https?:\/\/|^\/\//i', $path)) {
+        return $path;
+    }
+    $options = Helper::options();
+    if (strpos($path, 'usr/uploads/') === 0) {
+        return $options->siteUrl($path);
+    }
+    return $options->themeUrl($path);
+}
+
+/**
+ * 获取文章内容中的所有图片
+ * 
+ * @param string $content 文章内容
+ * @return array 图片列表
+ */
+function getAllImages($content) {
+    $imgList = array();
+
+    preg_match_all("/<img.*?src=\"(.*?)\".*?>/i", $content, $matches);
+    if (isset($matches[1])) {
+        $imgList = $matches[1];
+    }
+    return $imgList;
 }

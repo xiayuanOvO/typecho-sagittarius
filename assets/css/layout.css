@@ -9,12 +9,21 @@ a {
   color: var(--color-text-1);
 }
 
+html, body {
+  overscroll-behavior: none;
+}
+
 body {
   width: 100%;
   min-height: 100vh;
   background-color: var(--color-bg);
   padding: 0 12px;
   padding-top: 20px;
+
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .page-container {
@@ -33,6 +42,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 4px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,6 +77,14 @@ body {
   line-height: 28px;
   color: #fff;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+}
+
+.page-header__gender {
+  margin-left: 4px;
+  width: 16px;
+  height: 16px;
 }
 
 .page-header__description {
@@ -287,6 +305,24 @@ article {
   word-break: break-word;
 }
 
+.post__images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-right: 80px;
+}
+
+.post__image {
+  width: 100%;
+  /* 宽高一比一，如果宽度超出，则图片居中显示 */
+  aspect-ratio: 1/1;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
 .post__content img {
   width: 100%;
   height: auto;
@@ -367,6 +403,6 @@ article {
 
 @media (min-width: 640px) {
   .page-header__content {
-    display: none;
+    /* display: none; */
   }
 }

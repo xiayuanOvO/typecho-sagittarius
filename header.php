@@ -12,5 +12,8 @@
             ], '', ' - '); ?><?php $this->options->title(); ?></title>
     <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/index.css'); ?>">
 </head>
-
-<body>
+<?php if ($this->options->bgMode == 'image'): ?>
+<body style="background-image: url(<?php echo getImageUrl($this->options->bgImage ?? ''); ?>);">
+<?php else: ?>
+<body style="background-color: <?php echo $this->options->bgColor ?? '#FFFFFF'; ?>;">
+<?php endif; ?>
