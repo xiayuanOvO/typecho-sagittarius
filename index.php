@@ -9,7 +9,7 @@
  * @link https://gitee.com/xiayuanOvO/typecho-sagittarius
  */
 // 引入 dump 
-// require_once dirname(__FILE__, 4) . '/vendor/autoload.php';
+require_once dirname(__FILE__, 4) . '/vendor/autoload.php';
 $this->need('header.php');
 ?>
 
@@ -35,12 +35,23 @@ $this->need('header.php');
                                 <div class="meta__name">
                                     <?php $this->author(); ?>
                                 </div>
-                                <a class="meta__date" href="<?php $this->permalink(); ?>" time="<?php echo $this->created; ?>">
+                                <a class="meta__date" href="<?php $this->permalink(); ?>"
+                                    time="<?php echo $this->created; ?>">
                                     <?php echo $this->date('Y-m-d H:i'); ?>
                                 </a>
                             </div>
                             <div class="post__content">
                                 <?php $this->excerpt(120, '...'); ?>
+                                <div class="post__images">
+                                    <?php
+                                    $images = getAllImages(content: $this->content);
+                                    if ($images):
+                                        foreach ($images as $image):
+                                            echo '<img class="post__image" loading="lazy" src="' . $image . '" alt="' . $this->title . '">';
+                                        endforeach;
+                                    endif;
+                                    ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -60,7 +71,7 @@ $this->need('header.php');
 <script>
     window.sagittarius.formatDate();
     // 加载下一页内容
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const listContainer = document.querySelector('.post-list');
         const indicator = document.querySelector('#load-indicator');
 
