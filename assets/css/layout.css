@@ -209,18 +209,25 @@ body {
   border-radius: 4px;
   gap: 5px;
   padding: 8px 16px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .tab-item {
-  width: 80px;
   color: var(--color-text-1);
+  flex-shrink: 0;
   text-align: center;
-  padding: 5px;
 }
 
 .tab-item:hover {
   background-color: rgba(255, 130, 0, 0.1);
   border-radius: 8px;
+}
+
+.tab-item a {
+  display: block;
+  padding: 5px 16px;
 }
 
 .tab-item:hover a {
