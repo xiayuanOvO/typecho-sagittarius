@@ -41,12 +41,17 @@ $this->need('header.php');
                                 </a>
                             </div>
                             <div class="post__content">
+                                <a href="<?php $this->permalink(); ?>">
                                 <?php $this->excerpt(120, '...'); ?>
+                                </a>
                                 <div class="post__images">
                                     <?php
                                     $images = getAllImages(content: $this->content);
                                     if ($images):
                                         foreach ($images as $image):
+                                            if (count($images) > 9) {
+                                                break;
+                                            }
                                             echo '<img class="post__image" loading="lazy" src="' . $image . '" alt="' . $this->title . '">';
                                         endforeach;
                                     endif;

@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 a {
   text-decoration: none;
   color: var(--color-text-1);
@@ -199,6 +204,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow: hidden;
 }
 
 .tab-list {
@@ -291,6 +297,10 @@ article {
   color: var(--color-gray-1);
 }
 
+.post__main {
+  min-width: 0;
+}
+
 .post__content {
   padding-top: 3px;
   color: var(--color-text-1);
@@ -308,9 +318,47 @@ article {
     "Noto Sans",
     sans-serif;
   letter-spacing: 0.5px;
-  overflow: hidden;
   word-break: break-word;
 }
+
+/* 文章内段落 */
+.post__content p {
+  margin: 0 0 1em;
+  line-height: 1.75;
+}
+
+.post__content p:last-child {
+  margin-bottom: 0;
+}
+
+/* 文章内标题层级 */
+.post__content h1,
+.post__content h2,
+.post__content h3,
+.post__content h4,
+.post__content h5,
+.post__content h6 {
+  margin: 1.25em 0 0.5em;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-text-1);
+}
+
+.post__content h1:first-child,
+.post__content h2:first-child,
+.post__content h3:first-child,
+.post__content h4:first-child,
+.post__content h5:first-child,
+.post__content h6:first-child {
+  margin-top: 0;
+}
+
+.post__content h1 { font-size: 1.5em; }
+.post__content h2 { font-size: 1.35em; border-bottom: 1px solid var(--border-color); padding-bottom: 0.35em; }
+.post__content h3 { font-size: 1.2em; }
+.post__content h4 { font-size: 1.1em; }
+.post__content h5 { font-size: 1.05em; }
+.post__content h6 { font-size: 1em; color: var(--color-gray-1); }
 
 .post__images {
   display: grid;
@@ -321,7 +369,6 @@ article {
 
 .post__image {
   width: 100%;
-  /* 宽高一比一，如果宽度超出，则图片居中显示 */
   aspect-ratio: 1/1;
   height: 100%;
   object-fit: cover;
@@ -405,6 +452,10 @@ article {
 
   .header__title {
     max-width: 100%;
+  }
+
+  .post__images {
+    margin-right: 0;
   }
 }
 

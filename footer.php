@@ -2,7 +2,17 @@
 
 </html>
 
+<script src="<?php $this->options->themeUrl('assets/js/prism.js'); ?>"></script>
+
 <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // 找到所有代码块的 pre 标签
+        document.querySelectorAll('pre').forEach((block) => {
+            // 添加 line-numbers 类以启用行号
+            block.classList.add('line-numbers');
+        });
+    });
+    
     window.sagittarius = window.sagittarius || {};
     // 格式化时间
     window.sagittarius.formatDate = () => {
