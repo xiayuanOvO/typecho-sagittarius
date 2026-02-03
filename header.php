@@ -11,6 +11,11 @@
                 'author' => _t('%s 发布的文章')
             ], '', ' - '); ?><?php $this->options->title(); ?></title>
     <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/index.css'); ?>">
+    <?php if ($this->is('post')): ?>
+        <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/prism.css'); ?>">
+        <script src="<?php $this->options->themeUrl('assets/js/prism.js'); ?>"></script>
+    <?php endif; ?>
+    <script src="<?php $this->options->themeUrl('assets/js/common.js'); ?>"></script>
 </head>
 <?php if ($this->options->bgMode == 'image'): ?>
 <body style="background-image: url(<?php echo getImageUrl($this->options->bgImage ?? ''); ?>);">

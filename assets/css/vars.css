@@ -9,4 +9,7 @@
 
   /* 边框 */
   --border-color: #e5e5e5;
+
+  /* 代码块 */
+  --code-block-bg: #282c34;
 }

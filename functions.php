@@ -108,6 +108,14 @@ function themeConfig($form)
     // 链接
     addText($form, 'links', NULL, '链接', '');
 
+    // 侧边栏最近评论
+    addCheckbox($form, 'sidebarRecentComments', array(
+        'comments' => _t('最近评论'),
+    ), array('comments'), '侧边栏最近评论', '勾选后，会在侧边栏显示最近评论');
+
+    // 侧边栏最近评论数量
+    addText($form, 'sidebarRecentCommentsNum', 5, '侧边栏最近评论数量', '侧边栏最近评论数量，默认为5');
+
     // setConfigLayoutFooter();
     setStyle();
     setScript();

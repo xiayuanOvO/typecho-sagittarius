@@ -1,14 +1,13 @@
 code[class*="language-"],
 pre[class*="language-"] {
-	border-radius: 4px;
-	overflow: hidden;
+	border-radius: 9px;
 	text-align: left;
 	white-space: pre;
 	word-spacing: normal;
 	word-break: normal;
 	word-wrap: normal;
 	color: #c3cee3;
-	background: #1f1f1f;
+	background: var(--code-block-bg);
 	font-family: Roboto Mono, monospace;
 	font-size: 1em;
 	line-height: 1.5em;
@@ -44,10 +43,10 @@ pre[class*="language-"] ::selection {
 }
 
 pre[class*="language-"] {
-	overflow: auto;
 	position: relative;
-	margin: 0.5em 0;
-	padding: 1.25em 1em;
+	/* padding: 0; */
+	padding-top: 35px;
+	box-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
 
 .language-css > code,
@@ -209,4 +208,108 @@ pre[class*="language-"] {
 
 .token.variable {
 	color: #f07178;
+}
+
+pre[class*="language-"] > code {
+    display: block;
+    overflow-x: auto;
+    padding: 15px;
+    padding-top: 5px;
+    background: transparent !important;
+}
+
+pre[class*="language-"]::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff5f56;
+    box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27c93f;
+}
+
+/* 代码块工具栏容器：必须设 position 以便内部 .toolbar 相对定位 */
+div.code-toolbar {
+    position: relative;
+}
+
+/* 固定复制按钮和语言标签 */
+div.code-toolbar > .toolbar {
+    position: absolute !important;
+    top: 10px !important;
+    right: 15px !important;
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    z-index: 1;
+}
+
+div.code-toolbar > .toolbar .toolbar-item {
+    display: inline-block;
+}
+
+/* 语言标签样式 */
+div.code-toolbar > .toolbar .toolbar-item span,
+div.code-toolbar > .toolbar .toolbar-item a {
+    color: rgba(195, 206, 227, 0.9);
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* 复制按钮样式 */
+div.code-toolbar > .toolbar .copy-to-clipboard-button {
+    color: rgba(195, 206, 227, 0.9);
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    cursor: pointer;
+}
+
+div.code-toolbar > .toolbar .copy-to-clipboard-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* 针对行号样式的修正（如果使用了 Line-Numbers） */
+pre[class*="language-"].line-numbers {
+    padding-left: 0 !important; /* 重置 */
+}
+
+.line-numbers-rows {
+    left: 15px !important; /* 距离左侧固定 */
+    top: 5px !important; /* 调整与代码行的对齐 */
+    border-right: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+/* 滚动条整体容器（轨道） */
+pre code::-webkit-scrollbar {
+    height: 8px;           /* 横向滚动条高度 */
+    width: 8px;            /* 纵向滚动条宽度 */
+    background: transparent;
+}
+
+/* 滚动条滑块（滑动的那个部分） */
+pre code::-webkit-scrollbar-thumb {
+    background: rgba(171, 178, 191, 0.3); /* 滑块颜色：半透明的灰 */
+    border-radius: 10px;                  /* 胶囊形状 */
+    transition: all 0.2s ease;
+}
+
+/* 鼠标悬停在滑块上时加深颜色 */
+pre code::-webkit-scrollbar-thumb:hover {
+    background: rgba(171, 178, 191, 0.5); 
+}
+
+pre code::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+pre code {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(171, 178, 191, 0.3) transparent;
 }

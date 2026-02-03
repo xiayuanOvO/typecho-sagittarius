@@ -1,7 +1,7 @@
 <?php
 $stat = Typecho_Widget::widget('Widget\Stat');
 ?>
-<aside class="page-sidebar">
+<aside class="site__sidebar">
     <!-- 统计 -->
     <?php if (!empty($this->options->sidebarStat)): ?>
         <div class="stat-list">
@@ -85,9 +85,29 @@ $stat = Typecho_Widget::widget('Widget\Stat');
                     <div class="info-item__icon">
                         <?php echo getSvg('link'); ?>
                     </div>
-                    <a href="<?php echo $this->options->links; ?>" target="_blank" class="info-item__value"><?php echo $this->options->links; ?></a>
+                    <a href="<?php echo $this->options->links; ?>" target="_blank"
+                        class="info-item__value"><?php echo $this->options->links; ?></a>
                 </div>
             <?php endif; ?>
+        </div>
+    <?php endif; ?>
+    <!-- 最近评论 -->
+    <?php if ($this->options->sidebarRecentComments): ?>
+        <div class="recent-comments">
+            <h3 class="recent-comments__title">最近评论</h3>
+            <div class="recent-comments__list">
+                <?php $comments = $this->widget('Widget_Comments_Recent', 'pageSize=' . $this->options->sidebarRecentCommentsNum); ?>
+                <?php while ($comments->next()): ?>
+                    <div class="recent-comments__item">
+                        <!-- 头像 + 评论内容 -->
+                        <img class="recent-comments__avatar"
+                            src="<?php echo htmlspecialchars(getAuthorAvatar($comments->mail, $this->options)); ?>"
+                            alt="<?php echo htmlspecialchars($comments->author); ?>">
+                        <a href="<?php $comments->permalink(); ?>"
+                            class="recent-comments__content"><?php $comments->content(); ?></a>
+                    </div>
+                <?php endwhile; ?>
+            </div>
         </div>
     <?php endif; ?>
 </aside>

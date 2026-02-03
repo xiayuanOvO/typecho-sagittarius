@@ -14,11 +14,11 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $this->need('header.php');
 ?>
 
-<div class="page-container">
+<div class="site__wrapper">
     <?php $this->need('components/header.php'); ?>
-    <main class="page-main">
+    <main class="site__content">
         <?php $this->need('components/sidebar.php'); ?>
-        <div class="page-content">
+        <div class="site__main">
             <?php $this->need('components/tabs.php'); ?>
             <div class="post-list">
                 <?php while ($this->next()): ?>
@@ -75,66 +75,7 @@ $this->need('header.php');
 <?php $this->need('footer.php'); ?>
 
 <script>
-    window.sagittarius.formatDate();
-    // 加载下一页内容
-    document.addEventListener('DOMContentLoaded', function () {
-        const listContainer = document.querySelector('.post-list');
-        const indicator = document.querySelector('#load-indicator');
-
-        let isLoading = false;
-
-        const loadPosts = () => {
-            // 从 load-indicator 内获取下一页链接
-            const nextLink = indicator.querySelector('a.next');
-            if (!nextLink || isLoading) return;
-
-            isLoading = true;
-            indicator.querySelector('.load-indicator__text').textContent = '加载中...';
-            const nextUrl = nextLink.href;
-
-            fetch(nextUrl)
-                .then(response => response.text())
-                .then(html => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-
-                    // 提取并追加文章
-                    const newPosts = doc.querySelectorAll('.post-list .post-item');
-                    newPosts.forEach(post => listContainer.appendChild(post));
-
-                    // 从新页面的 load-indicator 更新下一页链接
-                    const newIndicator = doc.querySelector('#load-indicator');
-                    const newNextLink = newIndicator ? newIndicator.querySelector('a.next') : null;
-                    if (newNextLink) {
-                        indicator.innerHTML = newIndicator.innerHTML;
-                    } else {
-                        indicator.innerHTML = '<span>全部加载完毕</span>';
-                        observer.unobserve(indicator);
-                    }
-                })
-                .catch(err => {
-                    console.error('加载异常:', err);
-                }).finally(() => {
-                    isLoading = false;
-                });
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                loadPosts();
-            }
-        }, {
-            rootMargin: '10px',
-            threshold: 0
-        });
-
-        if (indicator) {
-            const nextLink = indicator.querySelector('a.next');
-            if (!nextLink) {
-                indicator.innerHTML = '';
-            } else {
-                observer.observe(indicator);
-            }
-        }
-    });
+document.addEventListener('DOMContentLoaded', function () {
+    window.sagittarius.initIndex();
+});
 </script>

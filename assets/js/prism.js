@@ -22386,7 +22386,7 @@ Prism.languages.yang = {
 	function getSettings(startElement) {
 		/** @type {Settings} */
 		var settings = {
-			'copy': 'Copy',
+			'copy': '复制',
 			'copy-error': 'Press Ctrl+C to copy',
 			'copy-success': 'Copied!',
 			'copy-timeout': 5000
