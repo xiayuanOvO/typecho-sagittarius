@@ -1,4 +1,5 @@
-<?php $this->need('header.php'); ?>
+<?php if (!defined('__TYPECHO_ROOT_DIR__')) exit;
+$this->need('header.php'); ?>
 
 <div class="page-container">
     <?php $this->need('components/header.php'); ?>

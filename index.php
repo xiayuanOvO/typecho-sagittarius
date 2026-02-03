@@ -8,6 +8,7 @@
  * @version 0.0.1
  * @link https://gitee.com/xiayuanOvO/typecho-sagittarius
  */
+if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 // 引入 dump 
 // require_once dirname(__FILE__, 4) . '/vendor/autoload.php';
 $this->need('header.php');
