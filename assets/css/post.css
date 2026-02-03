@@ -5,6 +5,8 @@
   font-size: 15px;
   line-height: 24px;
   overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
   font-family:
     QuoteFallback,
     system-ui,
@@ -16,7 +18,12 @@
     "Noto Sans",
     sans-serif;
   letter-spacing: 0.5px;
-  word-break: break-word;
+}
+
+.post__content pre {
+  max-width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
 }
 
 /* 文章内段落 */

@@ -4,17 +4,13 @@
   box-sizing: border-box;
 }
 
-pre {
-  max-width: 100%;
-  overflow-x: auto;
-}
-
 a {
   text-decoration: none;
   color: var(--color-text-1);
 }
 
-html, body {
+html,
+body {
   overscroll-behavior: none;
 }
 
@@ -201,6 +197,7 @@ body {
 
 .page-content {
   flex: 3;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -259,6 +256,7 @@ article {
   display: flex;
   align-items: center;
   gap: 16px;
+  z-index: 1;
 }
 
 .author__avatar {
