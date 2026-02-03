@@ -9,7 +9,7 @@
  * @link https://gitee.com/xiayuanOvO/typecho-sagittarius
  */
 // 引入 dump 
-require_once dirname(__FILE__, 4) . '/vendor/autoload.php';
+// require_once dirname(__FILE__, 4) . '/vendor/autoload.php';
 $this->need('header.php');
 ?>
 

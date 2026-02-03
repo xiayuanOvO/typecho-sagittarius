@@ -68,7 +68,7 @@ function themeConfig($form)
     ), 'color', '背景模式', '切换后，下方会自动显示对应的输入框');
 
     // 背景图片地址
-    addText($form, 'bgImage', '/assets/images/bg.jpg', '背景图片 URL', '完整路径，包括 http:// 或 https://');
+    addText($form, 'bgImage', '/assets/images/bg.jpg', '背景图片 URL', '/assets/images/bg.jpg');
 
     // 背景颜色代码
     addText($form, 'bgColor', '#f0f0f0', '背景颜色代码', '请输入 Hex 颜色值，例如 #f0f0f0');

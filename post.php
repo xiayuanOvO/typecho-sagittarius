@@ -13,6 +13,7 @@
                 <span class="header__title"><?php $this->title(); ?></span>
             </div>
             <?php $this->need('components/article.php'); ?>
+            <?php $this->need('comments.php'); ?>
         </div>
     </main>
 </div>
