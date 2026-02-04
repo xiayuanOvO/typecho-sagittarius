@@ -1,0 +1,24 @@
+# 依赖
+node_modules/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+*.log
+
+# 环境
+.env
+.env.local
+.env.*.local
+
+# IDE / 编辑器
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+
+package-lock.json
