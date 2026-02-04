@@ -5,12 +5,10 @@
  * 
  * @package Sagittarius Theme 
  * @author 夏源
- * @version 0.0.1
+ * @version 0.1.0
  * @link https://gitee.com/xiayuanOvO/typecho-sagittarius
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
-// 引入 dump 
-// require_once dirname(__FILE__, 4) . '/vendor/autoload.php';
 $this->need('header.php');
 ?>
 
@@ -20,12 +18,12 @@ $this->need('header.php');
         <?php $this->need('components/sidebar.php'); ?>
         <div class="site__main">
             <?php $this->need('components/tabs.php'); ?>
-            <div class="post-list">
+            <div class="post__list">
                 <?php while ($this->next()): ?>
-                    <div class="post-item">
+                    <div class="post__item">
                         <!-- 文章侧边栏 -->
                         <div class="post__sidebar">
-                            <a class="author__avatar" href="<?php $this->author->permalink(); ?>"
+                            <a class="post__avatar" href="<?php $this->author->permalink(); ?>"
                                 title="<?php $this->author(); ?>">
                                 <img src="<?php echo htmlspecialchars(getAuthorAvatar($this->author->mail, $this->options)); ?>"
                                     alt="<?php echo htmlspecialchars($this->author->name); ?>">

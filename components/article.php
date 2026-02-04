@@ -1,7 +1,7 @@
-<article class="post-item">
+<article class="post__item">
     <!-- 文章侧边栏 -->
     <div class="post__sidebar">
-        <a class="author__avatar" href="<?php $this->author->permalink(); ?>" title="<?php $this->author(); ?>">
+        <a class="post__avatar" href="<?php $this->author->permalink(); ?>" title="<?php $this->author(); ?>">
             <img loading="lazy"
                 src="<?php echo htmlspecialchars(getAuthorAvatar($this->author->mail, $this->options)); ?>"
                 alt="<?php echo htmlspecialchars($this->author->name); ?>">

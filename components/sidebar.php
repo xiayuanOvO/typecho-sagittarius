@@ -104,7 +104,7 @@ $stat = Typecho_Widget::widget('Widget\Stat');
                             src="<?php echo htmlspecialchars(getAuthorAvatar($comments->mail, $this->options)); ?>"
                             alt="<?php echo htmlspecialchars($comments->author); ?>">
                         <a href="<?php $comments->permalink(); ?>"
-                            class="recent-comments__content"><?php $comments->content(); ?></a>
+                            class="recent-comments__content"><?php $comments->text(); ?></a>
                     </div>
                 <?php endwhile; ?>
             </div>

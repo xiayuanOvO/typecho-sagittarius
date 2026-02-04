@@ -12,4 +12,7 @@
 
   /* 代码块 */
   --code-block-bg: #282c34;
+
+  /* 卡片背景 */
+  --card-bg: var(--color-white);
 }

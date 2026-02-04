@@ -47,7 +47,7 @@ function themeConfig($form)
 
     // 头部图片
     addText($form, 'headerImage', '/assets/images/card-bg.jpg', '卡片背景图片链接', '默认：/assets/images/card-bg.jpg');
-    
+
     // 侧边栏统计
     addCheckbox($form, 'sidebarStat', array(
         'posts' => _t('文章总数'),
@@ -404,7 +404,8 @@ function getImageUrl($path)
  * @param string $content 文章内容
  * @return array 图片列表
  */
-function getAllImages($content) {
+function getAllImages($content)
+{
     $imgList = array();
 
     preg_match_all("/<img.*?src=\"(.*?)\".*?>/i", $content, $matches);
@@ -413,3 +414,59 @@ function getAllImages($content) {
     }
     return $imgList;
 }
+/**
+ * 嵌套评论
+ * @param mixed $comments
+ * @param mixed $options
+ * @return void
+ */
+function threadedComments($comments, $options)
+{
+    $coid = $comments->coid;
+    $htmlId = $comments->theId();
+    $author = htmlspecialchars($comments->author);
+    $commentClass = '';
+    if ($comments->authorId) {
+        if ($comments->authorId == $comments->ownerId) {
+            $commentClass .= ' comment-by-author';  // 博主评论样式
+        } else {
+            $commentClass .= ' comment-by-user';    // 注册用户样式
+        }
+    }
+
+    ?>
+    <li id="li-<?php $comments->theId(); ?>" class="comment__item<?php
+      if ($comments->levels > 0) {
+          echo ' child';
+          $comments->levelsAlt(' comment-level-odd', ' comment-level-even');
+      } else {
+          echo ' parent';
+      }
+      $comments->alt(' comment-odd', ' comment-even');
+      echo $commentClass;
+      ?>">
+        <div id="<?php $comments->theId(); ?>" class="comment__view">
+            <img class="comment__avatar" src="<?php echo htmlspecialchars(getAuthorAvatar($comments->mail, $options)); ?>"
+                alt="<?php echo $author; ?>">
+            <div class="comment__content">
+                <div class="comment__meta">
+                    <div class="comment__author"><?php echo $author; ?></div>
+                    <div class="meta__date" time="<?php echo $comments->created; ?>"><?php $comments->date('Y-m-d H:i'); ?>
+                    </div>
+                </div>
+                <div class="comment__text">
+                    <?php $comments->text(); ?>
+                </div>
+                <div class="comment__actions" data-author="<?php echo $author; ?>" data-coid="<?php echo $coid; ?>" data-html-id="<?php echo $htmlId; ?>">
+                    <button class="comment__reply" type="button" onclick="replyComment(<?php echo $coid; ?>, '<?php echo $author; ?>');"><?php _e('回复'); ?></button>
+                </div>
+            </div>
+        </div>
+
+        <?php if ($comments->children) { ?>
+            <div class="comment__children">
+                <?php $comments->threadedComments($options); ?>
+            </div>
+        <?php } ?>
+    </li>
+<?php } ?>

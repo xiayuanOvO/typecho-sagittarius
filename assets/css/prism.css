@@ -250,16 +250,6 @@ div.code-toolbar > .toolbar .toolbar-item {
     display: inline-block;
 }
 
-/* 语言标签样式 */
-div.code-toolbar > .toolbar .toolbar-item span,
-div.code-toolbar > .toolbar .toolbar-item a {
-    color: rgba(195, 206, 227, 0.9);
-    font-size: 12px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.08);
-}
-
 /* 复制按钮样式 */
 div.code-toolbar > .toolbar .copy-to-clipboard-button {
     color: rgba(195, 206, 227, 0.9);

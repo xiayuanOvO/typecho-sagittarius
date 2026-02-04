@@ -1,3 +1,18 @@
+.post__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.post__item {
+  display: flex;
+  gap: 16px;
+  background-color: var(--color-white);
+  padding: 16px 18px;
+  padding-bottom: 8px;
+  border-radius: 4px;
+}
+
 .post__header {
   position: sticky;
   top: 0;
@@ -11,6 +26,39 @@
 
   z-index: 1;
   /* 这里没加圆角，应该没人看出来吧 */
+}
+
+.post__avatar {
+  display: block;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.post__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  height: 52px;
+  padding-top: 4px;
+}
+
+.meta__name, .comment__author {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 21px;
+  color: var(--color-text-1);
+}
+
+.meta__date, .comment__time {
+  font-size: 13px;
+  line-height: 16px;
+  color: var(--color-gray-1);
+}
+
+.post__main {
+  min-width: 0;
 }
 
 .post__back {

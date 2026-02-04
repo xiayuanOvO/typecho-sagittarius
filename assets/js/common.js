@@ -52,7 +52,7 @@ window.sagittarius.utils = {
     },
     // 瀑布流文章
     loadMorePosts: function () {
-        const listContainer = document.querySelector('.post-list');
+        const listContainer = document.querySelector('.post__list');
         const indicator = document.querySelector('#load-indicator');
         if (!listContainer || !indicator) return;
 
@@ -64,7 +64,6 @@ window.sagittarius.utils = {
 
             isLoading = true;
             const textNode = indicator.querySelector('.load-indicator__text');
-            const originalText = textNode ? textNode.textContent : '';
             if (textNode) textNode.textContent = '加载中...';
 
             fetch(nextLink.href)
@@ -75,26 +74,21 @@ window.sagittarius.utils = {
                 .then(html => {
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
-                    const newPosts = doc.querySelectorAll('.post-list .post-item');
+                    const newPosts = doc.querySelectorAll('.post__list .post__item');
                     
                     if (newPosts.length > 0) {
-                        // 1. 创建文档碎片提高渲染性能
                         const fragment = document.createDocumentFragment();
-                        newPosts.forEach(post => fragment.appendChild(post));
+                        newPosts.forEach(post => fragment.appendChild(post.cloneNode(true)));
                         listContainer.appendChild(fragment);
-
-                        // 2. 关键优化：对新加载的内容重新执行格式化
-                        // 仅对新加入容器的元素进行日期转换，避免全局重扫
-                        this.formatDate(listContainer); 
+                        this.formatDate(listContainer);
                     }
 
-                    // 更新分页器
                     const newIndicator = doc.querySelector('#load-indicator');
                     if (newIndicator && newIndicator.querySelector('a.next')) {
                         indicator.innerHTML = newIndicator.innerHTML;
                     } else {
-                        indicator.innerHTML = '<span>全部加载完毕</span>';
-                        observer.disconnect(); // 停止观察
+                        indicator.innerHTML = '<span class="load-indicator__text"></span>';
+                        observer.disconnect();
                     }
                 })
                 .catch(err => {
@@ -111,6 +105,15 @@ window.sagittarius.utils = {
         }, { rootMargin: '200px' }); // 提前 200px 加载，体验更流畅
 
         observer.observe(indicator);
+    },
+    // 监听textarea高度
+    listenTextareaHeight: function () {
+        document.querySelectorAll('.comment__textarea').forEach((textarea) => {
+            textarea.addEventListener('input', function () {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+        });
     }
 }
 
@@ -120,6 +123,7 @@ window.sagittarius.utils = {
 window.sagittarius.initPost = function () {
     window.sagittarius.utils.formatDate();
     window.sagittarius.utils.initCodeBlocks();
+    window.sagittarius.utils.listenTextareaHeight();
 }
 
 /**

@@ -79,7 +79,7 @@ body {
   font-size: 20px;
   font-weight: 700;
   line-height: 28px;
-  color: #fff;
+  color: var(--color-white);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
@@ -94,8 +94,7 @@ body {
 .header__description {
   font-size: 13px;
   line-height: 16px;
-  /* color: var(--color-gray-1); */
-  color: #fff;
+  color: var(--color-white);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -112,10 +111,11 @@ body {
   gap: 8px;
   position: sticky;
   top: 0;
+  overflow: hidden;
 }
 
 .stat-list {
-  background-color: var(--color-white);
+  background-color: var(--card-bg);
   border-radius: 4px;
   display: flex;
   gap: 8px;
@@ -226,6 +226,7 @@ body {
 }
 
 .recent-comments__avatar {
+  flex-shrink: 0;
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -236,6 +237,9 @@ body {
   font-size: 13px;
   line-height: 16px;
   color: var(--color-text-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .site__main {
@@ -284,64 +288,148 @@ body {
   font-weight: 500;
 }
 
-.post-item,
-article {
-  display: flex;
-  gap: 16px;
+.comment__wrapper {
+  margin-top: -12px;
   background-color: var(--color-white);
-  padding: 16px 18px;
-  padding-bottom: 8px;
   border-radius: 4px;
-  margin-bottom: 8px;
+  padding: 16px 18px;
+  margin-bottom: 80px;
 }
 
-.post__header {
+.comment__login__content {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  z-index: 1;
+  gap: 8px;
 }
 
-.author__avatar {
+/* 鼠标悬停时，头像变暗 */
+.comment__login__avatar:hover {
+  filter: brightness(0.8);
+}
+
+.comment__view {
+  display: flex;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.comment__avatar {
   display: block;
-  width: 52px;
-  height: 52px;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   overflow: hidden;
+  margin: 5px 0;
 }
 
-.author__avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.post__meta {
+.comment__content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  height: 52px;
-  padding-top: 4px;
+  width: 100%;
 }
 
-.meta__name {
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 21px;
-  color: var(--color-text-1);
+.comment__meta {
+  margin-bottom: 5px;
 }
 
-.meta__date {
-  font-size: 13px;
+.comment__text {
+  font-size: 14px;
   line-height: 16px;
+  color: var(--color-text-1);
+  /* 文本不换行 */
+  white-space: nowrap;
+}
+.comment__actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.comment__reply {
+  border: none;
+  background: transparent;
+
   color: var(--color-gray-1);
+  font-size: 12px;
+  line-height: 16px;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.post__main {
-  min-width: 0;
+.comment__reply:hover {
+  color: var(--primary-color);
 }
 
+.comment__textarea__wrapper {
+  flex: 1;
+  display: flex;
+  padding: 9px 11px;
+  height: min-content;
+  border-radius: 6px;
+  
+  color: var(--color-text-1);
+  border: 1px solid transparent;
+  background: #f0f1f4;
+}
 
+.comment__textarea__wrapper:focus-within {
+  border: 1px solid var(--primary-color);
+  background: var(--color-white);
+}
+
+.comment__textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: none;
+  line-height: 24px;
+  font-size: 15px;
+
+  min-height: 24px;
+  max-height: 456px;
+  height: min-content;
+  resize: none;
+}
+
+.comment__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comment__textarea:focus-visible {
+  outline: none;
+  border: none;
+}
+
+.comment__login__footer {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.comment__cancel, .comment__submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 80px;
+  height: 32px;
+  border-radius: 25px;
+  border: none;
+  font-size: 13px;
+}
+
+.comment__submit {
+  background: var(--primary-color);
+  color: var(--color-white);
+}
 
 .load-indicator {
   text-align: center;
@@ -386,6 +474,10 @@ article {
 
   .post__images {
     margin-right: 0;
+  }
+  
+  .recent-comments {
+    display: none;
   }
 }
 

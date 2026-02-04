@@ -22388,7 +22388,7 @@ Prism.languages.yang = {
 		var settings = {
 			'copy': '复制',
 			'copy-error': 'Press Ctrl+C to copy',
-			'copy-success': 'Copied!',
+			'copy-success': '已复制',
 			'copy-timeout': 5000
 		};
 
