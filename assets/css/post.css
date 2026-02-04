@@ -1,4 +1,4 @@
-.post-header {
+.post__header {
   position: sticky;
   top: 0;
 
@@ -13,7 +13,7 @@
   /* 这里没加圆角，应该没人看出来吧 */
 }
 
-.post-header__back {
+.post__back {
   position: absolute;
   left: 18px;
   display: flex;
@@ -25,7 +25,7 @@
   height: 18px;
 }
 
-.post-header__title {
+.post__title {
   font-size: 15px;
   font-weight: normal;
   max-width: 70%;

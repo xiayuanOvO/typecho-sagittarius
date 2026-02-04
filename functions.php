@@ -1,48 +1,5 @@
 <?php
 
-// 设置配置布局头部结构（预留）
-function setConfigLayoutHeader()
-{
-    ?>
-
-    <div class="config-content">
-        <?php
-}
-
-// 设置配置布局尾部结构（预留）
-function setConfigLayoutFooter()
-{
-    ?>
-
-    </div>
-    <?php
-}
-
-/**
- * 按作者邮箱获取头像 URL，同页内相同作者只计算一次
- *
- * @param string $mail 作者邮箱
- * @param mixed $options 主题选项（含 avatarUrl）
- * @return string 头像 URL
- */
-function getAuthorAvatar($mail, $options)
-{
-    static $cache = [];
-    if (isset($cache[$mail])) {
-        return $cache[$mail];
-    }
-    $avatarUrl = $options->avatarUrl;
-    if ($avatarUrl == 'loli') {
-        $url = 'https://gravatar.loli.net/avatar/' . md5($mail) . '?s=128&r=X';
-    } else if ($avatarUrl == 'gravatar') {
-        $url = 'https://gravatar.com/avatar/' . md5($mail) . '?s=128&r=X';
-    } else {
-        $url = 'https://cdn.v2ex.com/gravatar/' . md5($mail) . '?s=128&r=X';
-    }
-    $cache[$mail] = $url;
-    return $url;
-}
-
 /**
  * 主题配置
  * 
@@ -52,6 +9,8 @@ function getAuthorAvatar($mail, $options)
 function themeConfig($form)
 {
     // setConfigLayoutHeader();
+
+    // ================================ 全局设置 ================================
     addTitle($form, '全局设置');
 
     // 头像源
@@ -73,12 +32,22 @@ function themeConfig($form)
     // 背景颜色代码
     addText($form, 'bgColor', '#f0f0f0', '背景颜色代码', '请输入 Hex 颜色值，例如 #f0f0f0');
 
-
+    // ================================ 主页设置 ================================
     addTitle($form, '主页设置');
 
-    // 头部图片
-    addText($form, 'headerImage', NULL, '顶部图片 URL', '');
+    // 性别
+    addSelect($form, 'headerGender', array(
+        'male' => _t('男'),
+        'female' => _t('女'),
+        'none' => _t('不显示'),
+    ), 'male', '性别', '');
 
+    // 卡片头像链接
+    addText($form, 'headerAvatarUrl', 'example@example.com', '卡片头像链接', '输入图片链接或者邮箱地址，如果是邮箱地址，会使用头像源获取。');
+
+    // 头部图片
+    addText($form, 'headerImage', '/assets/images/card-bg.jpg', '卡片背景图片链接', '默认：/assets/images/card-bg.jpg');
+    
     // 侧边栏统计
     addCheckbox($form, 'sidebarStat', array(
         'posts' => _t('文章总数'),
@@ -95,7 +64,6 @@ function themeConfig($form)
         'intro' => _t('简介'),
         'links' => _t('链接'),
     ), array('hometown', 'email', 'birthday', 'intro', 'links'), '侧边栏资料', '勾选后，会在侧边栏显示资料');
-
 
     // 邮箱
     addText($form, 'email', NULL, '邮箱', '');
@@ -121,6 +89,48 @@ function themeConfig($form)
     setScript();
 }
 
+/**
+ * 按邮箱获取头像 URL，同邮箱只计算一次
+ *
+ * @param string $mail 作者邮箱
+ * @param mixed $options 主题选项（含 avatarUrl）
+ * @return string 头像 URL
+ */
+function getAuthorAvatar($mail, $options)
+{
+    static $cache = [];
+    if (isset($cache[$mail])) {
+        return $cache[$mail];
+    }
+    $avatarUrl = $options->avatarUrl;
+    if ($avatarUrl == 'loli') {
+        $url = 'https://gravatar.loli.net/avatar/' . md5($mail) . '?s=128&r=X';
+    } else if ($avatarUrl == 'gravatar') {
+        $url = 'https://gravatar.com/avatar/' . md5($mail) . '?s=128&r=X';
+    } else {
+        $url = 'https://cdn.v2ex.com/gravatar/' . md5($mail) . '?s=128&r=X';
+    }
+    $cache[$mail] = $url;
+    return $url;
+}
+
+// 设置配置布局头部结构（预留）
+function setConfigLayoutHeader()
+{
+    ?>
+
+    <div class="config-content">
+        <?php
+}
+
+// 设置配置布局尾部结构（预留）
+function setConfigLayoutFooter()
+{
+    ?>
+
+    </div>
+    <?php
+}
 
 /**
  * 设置样式

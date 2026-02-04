@@ -6,12 +6,12 @@ $this->need('header.php'); ?>
     <main class="site__content">
         <?php $this->need('components/sidebar.php'); ?>
         <div class="site__main">
-            <div class="post-header">
-                <div class="post-header__back">
+            <div class="post__header">
+                <div class="post__back">
                     <?php echo getSvg('left', 'back__icon'); ?>
                     <a class="back__link" href="<?php $this->options->siteUrl(); ?>">返回</a>
                 </div>
-                <h1 class="post-header__title"><?php $this->title(); ?></h1>
+                <h1 class="post__title"><?php $this->title(); ?></h1>
             </div>
             <?php $this->need('components/article.php'); ?>
             <?php $this->need('comments.php'); ?>
