@@ -21,12 +21,8 @@ $comments = $this->comments();
                         </div>
                     </div>
                     <div class="comment__login__footer">
-                        <button class="comment__cancel" type="button" onclick="cancelReply();">
-                            <?php _t('取消回复'); ?>
-                        </button>
-                        <button class="comment__submit" type="button" onclick="submitComment();">
-                            <?php _t('提交评论'); ?>
-                        </button>
+                        <button class="comment__cancel" type="button" onclick="cancelReply();">取消回复</button>
+                        <button class="comment__submit" type="button" onclick="submitComment();">提交评论</button>
                     </div>
                 <?php else: ?>
                     <p>
@@ -44,9 +40,9 @@ $comments = $this->comments();
     <?php else: ?>
         <p><?php _t('评论已关闭'); ?></p>
     <?php endif; ?>
-    <?php if ($comments->have()): ?>
-        <h3><?php $this->commentsNum(_t('暂无评论'), _t('仅有一条评论'), _t('%d 条评论')); ?></h3>
 
+    <h3><?php $this->commentsNum(_t('暂无评论'), _t('仅有一条评论'), _t('%d 条评论')); ?></h3>
+    <?php if ($comments->have()): ?>
         <?php $this->comments()->listComments(array(
             'before' => '<ol class="comment__list">',
             'after' => '</ol>',
@@ -65,7 +61,6 @@ $comments = $this->comments();
     }
 
     function replyComment(coid, author) {
-        console.log(coid, author);
         commentState.coid = coid;
         commentState.author = author;
         document.querySelector('.comment__cancel').style.display = 'block';
@@ -78,6 +73,11 @@ $comments = $this->comments();
     }
 
     function submitComment() {
+        const textarea = document.querySelector('.comment__textarea');
+        const text = textarea.value.trim();
+        if (!text) {
+            return;
+        }
         const form = document.querySelector('.comment__form')
         const action = form.dataset.action;
         const formData = new FormData(form);
@@ -86,12 +86,12 @@ $comments = $this->comments();
         }
 
         fetch(action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest' // 告诉 Typecho 这是一个异步请求
-            }
-        }).then(response => response.text())
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest' // 告诉 Typecho 这是一个异步请求
+                }
+            }).then(response => response.text())
             .then(html => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');

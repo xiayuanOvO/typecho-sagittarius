@@ -71,9 +71,3 @@ $this->need('header.php');
 </div>
 
 <?php $this->need('footer.php'); ?>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    window.sagittarius.initIndex();
-});
-</script>

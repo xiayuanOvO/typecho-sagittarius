@@ -20,6 +20,10 @@ img {
   object-fit: cover;
 }
 
+ol {
+list-style-type: none;
+}
+
 body {
   width: 100%;
   min-height: 100vh;
@@ -293,7 +297,21 @@ body {
   background-color: var(--color-white);
   border-radius: 4px;
   padding: 16px 18px;
+  padding-top: 40px;
   margin-bottom: 80px;
+  position: relative;
+}
+
+.comment__wrapper::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: 0 auto;
+  height: 1px;
+  background: #f9f9f9;
 }
 
 .comment__login__content {
@@ -415,6 +433,7 @@ body {
 }
 
 .comment__cancel, .comment__submit {
+  display: none;
   display: flex;
   align-items: center;
   justify-content: center;

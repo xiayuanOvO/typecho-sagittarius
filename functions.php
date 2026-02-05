@@ -209,7 +209,6 @@ function setScript()
     <script>
         window.onload = function () {
             var main = document.querySelector('.typecho-page-main');
-            console.log(main);
 
             if (main) {
                 var sidebar = document.createElement('div');
@@ -423,7 +422,6 @@ function getAllImages($content)
 function threadedComments($comments, $options)
 {
     $coid = $comments->coid;
-    $htmlId = $comments->theId();
     $author = htmlspecialchars($comments->author);
     $commentClass = '';
     if ($comments->authorId) {
@@ -445,7 +443,7 @@ function threadedComments($comments, $options)
       $comments->alt(' comment-odd', ' comment-even');
       echo $commentClass;
       ?>">
-        <div id="<?php $comments->theId(); ?>" class="comment__view">
+        <div class="comment__view">
             <img class="comment__avatar" src="<?php echo htmlspecialchars(getAuthorAvatar($comments->mail, $options)); ?>"
                 alt="<?php echo $author; ?>">
             <div class="comment__content">

@@ -20,7 +20,3 @@ $this->need('header.php'); ?>
 </div>
 
 <?php $this->need('footer.php'); ?>
-
-<script>
-    window.sagittarius.initPost();
-</script>
