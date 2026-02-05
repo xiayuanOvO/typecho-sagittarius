@@ -14,7 +14,7 @@ $this->need('header.php'); ?>
                 <h1 class="post__title"><?php $this->title(); ?></h1>
             </div>
             <?php $this->need('components/article.php'); ?>
-            <?php $this->need('comments.php'); ?>
+            <?php $this->need('components/comments.php'); ?>
         </div>
     </main>
 </div>

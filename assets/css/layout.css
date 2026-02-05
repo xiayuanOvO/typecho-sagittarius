@@ -21,7 +21,7 @@ img {
 }
 
 ol {
-list-style-type: none;
+  list-style-type: none;
 }
 
 body {
@@ -324,10 +324,15 @@ body {
   filter: brightness(0.8);
 }
 
+.comment__list {
+  overflow: hidden;
+}
+
 .comment__view {
   display: flex;
   gap: 8px;
   padding: 8px 0;
+  width: 100%;
 }
 
 .comment__avatar {
@@ -341,9 +346,13 @@ body {
 }
 
 .comment__content {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  width: 100%;
+}
+
+.comment__item.child  .comment__avatar {
+  display: none;
 }
 
 .comment__meta {
@@ -354,15 +363,15 @@ body {
   font-size: 14px;
   line-height: 16px;
   color: var(--color-text-1);
-  /* 文本不换行 */
   white-space: nowrap;
 }
+
 .comment__actions {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   gap: 8px;
-  margin-top: 5px;
+  padding: 5px 0;
 }
 
 .comment__reply {
@@ -390,6 +399,7 @@ body {
   color: var(--color-text-1);
   border: 1px solid transparent;
   background: #f0f1f4;
+  position: relative;
 }
 
 .comment__textarea__wrapper:focus-within {
@@ -411,12 +421,65 @@ body {
   max-height: 456px;
   height: min-content;
   resize: none;
+
+  position: relative;
+}
+
+.comment__textarea__tip {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  height: 100%;
+  padding-top: 5px;
+  font-size: 12px;
+  color: var(--color-gray-1);
 }
 
 .comment__meta {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.guest > .comment__form__content {
+  flex-direction: column;
+}
+
+.comment__form__content {
+  display: flex;
+  gap: 8px;
+}
+
+.comment__input__list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.comment__input__item {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.comment__input__item input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--color-text-1);
+  padding: 5px 10px;
+}
+
+.comment__input__item svg {
+  width: 18px;
+  height: 18px;
+}
+
+.comment__form.guest {
+  flex-direction: column;
 }
 
 .comment__textarea:focus-visible {
@@ -433,7 +496,6 @@ body {
 }
 
 .comment__cancel, .comment__submit {
-  display: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -445,9 +507,32 @@ body {
   font-size: 13px;
 }
 
+.comment__cancel {
+  display: none;
+}
+
 .comment__submit {
   background: var(--primary-color);
   color: var(--color-white);
+}
+
+.comment__children {
+  position: relative;
+  padding-left: 16px;
+}
+
+.comment__children .comment__view {
+  padding: 3px 0;
+}
+
+.comment__children::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: #f2f2f2;
 }
 
 .load-indicator {

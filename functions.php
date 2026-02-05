@@ -455,16 +455,16 @@ function threadedComments($comments, $options)
                 <div class="comment__text">
                     <?php $comments->text(); ?>
                 </div>
-                <div class="comment__actions" data-author="<?php echo $author; ?>" data-coid="<?php echo $coid; ?>" data-html-id="<?php echo $htmlId; ?>">
-                    <button class="comment__reply" type="button" onclick="replyComment(<?php echo $coid; ?>, '<?php echo $author; ?>');"><?php _e('回复'); ?></button>
+                <div class="comment__actions" data-author="<?php echo $author; ?>" data-coid="<?php echo $coid; ?>"
+                    data-html-id="">
+                    <button class="comment__reply" type="button" data-coid="<?php echo $coid; ?>" data-author="<?php echo $author; ?>"><?php _e('回复'); ?></button>
                 </div>
+                <?php if ($comments->children) { ?>
+                    <div class="comment__children">
+                        <?php $comments->threadedComments($options); ?>
+                    </div>
+                <?php } ?>
             </div>
         </div>
-
-        <?php if ($comments->children) { ?>
-            <div class="comment__children">
-                <?php $comments->threadedComments($options); ?>
-            </div>
-        <?php } ?>
     </li>
 <?php } ?>
