@@ -12,7 +12,6 @@
             ], '', ' - '); ?><?php $this->options->title(); ?></title>
     <link rel="stylesheet" href="<?php $this->options->themeUrl('main.min.css'); ?>">
     <script src="<?php $this->options->themeUrl('app.min.js'); ?>"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
 </head>
 <?php if ($this->options->bgMode == 'image'): ?>
 <body style="background-image: url(<?php echo getImageUrl($this->options->bgImage ?? ''); ?>);">

@@ -6,7 +6,8 @@ const rename = require('gulp-rename');
 
 // 1. 处理 CSS：扫描所有 CSS 并合并压缩为一个 main.min.css
 gulp.task('minify-css', () => {
-    return gulp.src(['./assets/css/**/*.css', '!./assets/css/**/*.min.css']) // 避开已压缩的文件
+    // return gulp.src(['./assets/css/**/*.css', '!./assets/css/**/*.min.css']) // 避开已压缩的文件
+    return gulp.src(['./assets/css/index.css']) // 只打包 index.css
         .pipe(concat('main.css'))       // 合并所有 css
         .pipe(cleanCSS())                 // 执行压缩
         .pipe(rename({ suffix: '.min' })) // 改名为 main.min.css
