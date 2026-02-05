@@ -58,7 +58,9 @@
 }
 
 .post__main {
-  min-width: 0;
+  /* min-width: 0; */
+  width: 100%;
+  overflow: hidden;
 }
 
 .post__back {
@@ -104,6 +106,15 @@
   max-width: 100%;
   overflow-x: auto;
   box-sizing: border-box;
+  min-width: 100%;
+}
+
+.post__content > code {
+  background: var(--border-color);
+  padding: 2px 4px;
+  margin: 0 2px;
+  border-radius: 4px;
+  color: var(--color-text-1);
 }
 
 /* 文章内段落 */
@@ -162,7 +173,7 @@
   margin: 0 auto;
 }
 
-.post__content img {
+.post__content > img {
   width: 100%;
   height: auto;
   display: block;
