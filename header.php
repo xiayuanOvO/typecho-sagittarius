@@ -10,8 +10,8 @@
                 'tag' => _t('标签 %s 下的文章'),
                 'author' => _t('%s 发布的文章')
             ], '', ' - '); ?><?php $this->options->title(); ?></title>
-    <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/css/main.min.css'); ?>">
-    <script src="<?php $this->options->themeUrl('assets/js/app.min.js'); ?>"></script>
+    <link rel="stylesheet" href="<?php $this->options->themeUrl('main.min.css'); ?>">
+    <script src="<?php $this->options->themeUrl('app.min.js'); ?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
 </head>
 <?php if ($this->options->bgMode == 'image'): ?>
