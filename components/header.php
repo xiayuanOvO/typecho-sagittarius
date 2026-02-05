@@ -1,5 +1,5 @@
 <?php
-if ($this->is('index') || $this->is('category')):
+if ($this->is('index') || $this->is('category')) {
     $avatar = $this->options->headerAvatarUrl;
     // 判断是否有@符号
     if (strpos($avatar, '@') !== false) {
@@ -7,11 +7,9 @@ if ($this->is('index') || $this->is('category')):
     } else {
         $avatar = getImageUrl($avatar);
     }
-endif;
-
-if ($this->is('post')):
+} else if ($this->is('post')) {
     $avatar = getAuthorAvatar($this->author->mail, $this->options);
-endif;
+}
 
 $gender = $this->options->headerGender;
 ?>

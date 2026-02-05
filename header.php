@@ -18,3 +18,4 @@
 <?php else: ?>
 <body style="background-color: <?php echo $this->options->bgColor ?? '#FFFFFF'; ?>;">
 <?php endif; ?>
+<?php $this->need('components/nav.php'); ?>
