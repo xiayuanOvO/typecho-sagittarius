@@ -1,4 +1,4 @@
-<article class="post__item">
+<article class="post__item" style="padding-bottom: 50px;">
     <!-- 文章侧边栏 -->
     <div class="post__sidebar">
         <a class="post__avatar" href="<?php $this->author->permalink(); ?>" title="<?php $this->author(); ?>">
