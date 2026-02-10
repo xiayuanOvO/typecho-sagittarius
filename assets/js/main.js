@@ -219,11 +219,50 @@ function initCommentEvents() {
   });
 }
 
+// 移动端导航菜单功能
+function initMobileNav() {
+  const mobileToggle = document.querySelector('.site__nav__mobile-toggle');
+  const mobileMenu = document.querySelector('.site__nav__mobile-menu');
+  
+  if (!mobileToggle || !mobileMenu) return;
+  
+  // 切换菜单显示/隐藏
+  mobileToggle.addEventListener('click', function() {
+    this.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+  });
+  
+  // 点击菜单项后关闭菜单
+  mobileMenu.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A') {
+      mobileToggle.classList.remove('active');
+      mobileMenu.classList.remove('active');
+    }
+  });
+  
+  // 点击页面其他区域关闭菜单
+  document.addEventListener('click', function(e) {
+    if (!mobileToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+      mobileToggle.classList.remove('active');
+      mobileMenu.classList.remove('active');
+    }
+  });
+  
+  // 窗口大小变化时重置菜单状态
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) {
+      mobileToggle.classList.remove('active');
+      mobileMenu.classList.remove('active');
+    }
+  });
+}
+
 function init() {
   formatPostDate();
   initTextareaHeight();
   initWaterfall();
   initCommentEvents();
+  initMobileNav();
 }
 
 document.addEventListener("DOMContentLoaded", init);

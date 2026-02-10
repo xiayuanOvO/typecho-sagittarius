@@ -12,6 +12,14 @@ function themeConfig($form)
 
     // ================================ 全局设置 ================================
     addTitle($form, '全局设置');
+    // logo
+    addText($form, 'logo', '/assets/images/logo.png', 'logo 图片 URL', '/assets/images/logo.png');
+
+    // 导航栏显示设置
+    addCheckbox($form, 'navDisplay', array(
+        'showLogo' => _t('显示 Logo'),
+        'showTitle' => _t('显示标题'),
+    ), array('showLogo', 'showTitle'), '导航栏显示', '选择在导航栏中显示的元素');
 
     // 头像源
     addSelect($form, 'avatarUrl', array(

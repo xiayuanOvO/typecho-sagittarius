@@ -12,6 +12,7 @@
             ], '', ' - '); ?><?php $this->options->title(); ?></title>
     <link rel="stylesheet" href="<?php $this->options->themeUrl('main.min.css'); ?>">
     <script src="<?php $this->options->themeUrl('app.min.js'); ?>"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@4.5.1/dist/css/swiper.min.css">
 </head>
 <?php if ($this->options->bgMode == 'image'): ?>
 <body style="background-image: url(<?php echo getImageUrl($this->options->bgImage ?? ''); ?>);">

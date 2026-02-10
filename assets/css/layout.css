@@ -28,8 +28,6 @@ body {
   width: 100%;
   min-height: 100vh;
   background-color: var(--color-bg);
-  padding: 0 12px;
-  padding-top: 20px;
 
   background-attachment: fixed;
   background-size: cover;
@@ -588,5 +586,279 @@ body {
 @media (min-width: 640px) {
   .page-header__content {
     /* display: none; */
+  }
+}
+
+.site__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-white);
+  border-radius: 4px;
+  padding: 12px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 12px;
+  height: 50px;
+
+}
+
+/* 左侧：Logo + Title */
+.site__nav__left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Logo 样式 */
+.site__nav__logo {
+  flex-shrink: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.site__nav__logo img {
+  height: 100%;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+}
+
+/* Title 样式 */
+.site__nav__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-1);
+  white-space: nowrap;
+}
+
+/* 右侧：导航菜单 */
+.site__nav__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.site__nav__item {
+  position: relative;
+}
+
+.site__nav__item a {
+  display: block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.site__nav__item:hover > a {
+  color: var(--primary-color);
+}
+
+.site__nav__item.active a {
+  background-color: var(--primary-color);
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+/* 下拉菜单 */
+.site__nav__item--dropdown {
+  position: relative;
+}
+
+.site__nav__dropdown-toggle {
+  cursor: pointer;
+}
+
+.site__nav__dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--color-white);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 150px;
+  z-index: 1000;
+  padding: 8px 0;
+  margin-top: 0;
+}
+
+.site__nav__item--dropdown:hover .site__nav__dropdown-menu,
+.site__nav__dropdown-menu:hover {
+  display: block;
+}
+
+.site__nav__dropdown-item {
+  display: block;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: var(--color-text-1);
+  transition: all 0.3s ease;
+}
+
+.site__nav__dropdown-item:hover {
+  background-color: var(--primary-color);
+  color: var(--color-white);
+}
+
+.site__nav__dropdown-item.active {
+  background-color: var(--primary-color);
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+/* 移动端菜单按钮 */
+.site__nav__mobile-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.site__nav__mobile-toggle span {
+  width: 20px;
+  height: 2px;
+  background-color: var(--color-text-1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.site__nav__mobile-toggle.active span:nth-child(1) {
+  position: absolute;
+  transform: rotate(45deg);
+}
+
+.site__nav__mobile-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.site__nav__mobile-toggle.active span:nth-child(3) {
+  position: absolute;
+  transform: rotate(-45deg);
+}
+
+/* 移动端菜单 */
+.site__nav__mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--color-white);
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  padding: 0;
+}
+
+.site__nav__mobile-menu.active {
+  display: block;
+}
+
+/* 移动端菜单头部 */
+.site__nav__mobile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.site__nav__mobile-logo {
+  flex-shrink: 0;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.site__nav__mobile-logo img {
+  height: 100%;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+}
+
+.site__nav__mobile-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-1);
+}
+
+/* 移动端菜单项 */
+.site__nav__mobile-item {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.site__nav__mobile-item:last-child {
+  border-bottom: none;
+}
+
+.site__nav__mobile-label {
+  display: block;
+  padding: 12px 20px;
+  font-size: 13px;
+  color: var(--color-gray-1);
+  font-weight: 600;
+}
+
+.site__nav__mobile-item a {
+  display: block;
+  padding: 14px 20px;
+  padding-left: 32px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.site__nav__mobile-item:hover a {
+  background-color: var(--primary-color);
+  color: var(--color-white);
+}
+
+.site__nav__mobile-item.active a {
+  background-color: var(--primary-color);
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .site__nav {
+    position: relative;
+    padding: 10px 16px;
+  }
+  
+  .site__nav__right {
+    display: none;
+  }
+  
+  .site__nav__center {
+    display: none;
+  }
+  
+  .site__nav__mobile-toggle {
+    display: flex;
+  }
+  
+  .site__nav__logo {
+    height: 32px;
+  }
+  
+  .site__nav__title {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site__nav__logo {
+    height: 28px;
+  }
+  
+  .site__nav__title {
+    font-size: 14px;
   }
 }
