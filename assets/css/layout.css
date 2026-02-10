@@ -39,6 +39,7 @@ body {
   margin: 0 auto;
   max-width: 942px;
   width: 100%;
+  padding: 0 8px;
 
   display: flex;
   flex-direction: column;
@@ -544,50 +545,6 @@ body {
   display: none;
 }
 
-@media (max-width: 640px) {
-  .site__content {
-    flex-direction: column;
-  }
-
-  .site__sidebar {
-    flex: 0 0 100%;
-    position: static;
-    align-self: stretch;
-  }
-
-  .stat-list {
-    display: none;
-  }
-
-  .post__header {
-    justify-content: flex-start;
-    padding: 12px 18px;
-    gap: 16px;
-  }
-
-  .header__back {
-    position: static;
-    min-width: 52px;
-  }
-
-  .header__title {
-    max-width: 100%;
-  }
-
-  .post__images {
-    margin-right: 0;
-  }
-  
-  .recent-comments {
-    display: none;
-  }
-}
-
-@media (min-width: 640px) {
-  .page-header__content {
-    /* display: none; */
-  }
-}
 
 .site__nav {
   display: flex;
@@ -825,40 +782,84 @@ body {
   font-weight: 600;
 }
 
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .site__nav {
-    position: relative;
-    padding: 10px 16px;
-  }
-  
-  .site__nav__right {
-    display: none;
-  }
-  
-  .site__nav__center {
-    display: none;
-  }
-  
-  .site__nav__mobile-toggle {
-    display: flex;
-  }
-  
-  .site__nav__logo {
-    height: 32px;
-  }
-  
-  .site__nav__title {
-    font-size: 16px;
-  }
+/* 友链独立页 */
+.links-page {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-@media (max-width: 480px) {
-  .site__nav__logo {
-    height: 28px;
-  }
-  
-  .site__nav__title {
-    font-size: 14px;
-  }
+.links-page__intro {
+  padding-bottom: 8px;
+}
+
+.links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.links-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: var(--color-white);
+  padding: 16px 18px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.links-item:hover {
+  /* 添加阴影 */
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.links-item:hover .links-item__name {
+  color: var(--primary-color);
+}
+
+.links-item__icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--border-color);
+  border-radius: 50%;
+  color: var(--color-gray-1);
+}
+
+.links-item__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.links-item__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.links-item__name {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 21px;
+  color: var(--color-text-1);
+  transition: color 0.2s ease;
+}
+
+.links-item__desc {
+  font-size: 13px;
+  line-height: 16px;
+  color: var(--color-gray-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.links-empty {
+  padding-bottom: 8px;
 }

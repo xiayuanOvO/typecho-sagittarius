@@ -161,6 +161,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-right: 80px;
+  margin-top: 10px;
 }
 
 .post__image {

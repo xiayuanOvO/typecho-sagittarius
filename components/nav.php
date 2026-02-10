@@ -1,6 +1,6 @@
 <nav class="site__nav">
     <!-- 左侧：Logo + Title -->
-    <div class="site__nav__left">
+    <a class="site__nav__left" href="<?php $this->options->siteUrl(); ?>">
         <?php if (in_array('showLogo', $this->options->navDisplay)): ?>
             <div class="site__nav__logo">
                 <img src="<?php echo getImageUrl($this->options->logo); ?>" alt="logo" />
@@ -12,9 +12,9 @@
                 <?php $this->options->title(); ?>
             </div>
         <?php endif; ?>
-    </div>
+    </a>
     
-    <!-- 右侧：分类、友链、关于 -->
+    <!-- 右侧：分类、独立页列表 -->
     <div class="site__nav__right">
         <!-- 分类（带悬浮菜单） -->
         <div class="site__nav__item site__nav__item--dropdown">
@@ -31,19 +31,15 @@
             </div>
         </div>
 
-        <!-- 友链 -->
+        <!-- 独立页列表 -->
+        <?php $pages = Typecho_Widget::widget('Widget_Contents_Page_List'); ?>
+        <?php while ($pages->next()): ?>
         <div class="site__nav__item">
-            <a href="#links">
-                <span class="site__nav__item__text">友链</span>
+            <a href="<?php $pages->permalink(); ?>"<?php if ($this->is('page') && $this->cid == $pages->cid): ?> class="active"<?php endif; ?>>
+                <span class="site__nav__item__text"><?php $pages->title(); ?></span>
             </a>
         </div>
-
-        <!-- 关于 -->
-        <div class="site__nav__item">
-            <a href="#about">
-                <span class="site__nav__item__text">关于</span>
-            </a>
-        </div>
+        <?php endwhile; ?>
     </div>
 
     <!-- 移动端菜单按钮 -->
@@ -65,12 +61,11 @@
             </div>
         <?php endwhile; ?>
         
-        <div class="site__nav__mobile-item">
-            <a href="#links">友链</a>
+        <?php $pages = Typecho_Widget::widget('Widget_Contents_Page_List'); ?>
+        <?php while ($pages->next()): ?>
+        <div class="site__nav__mobile-item<?php if ($this->is('page') && $this->cid == $pages->cid): ?> active<?php endif; ?>">
+            <a href="<?php $pages->permalink(); ?>"><?php $pages->title(); ?></a>
         </div>
-        
-        <div class="site__nav__mobile-item">
-            <a href="#about">关于</a>
-        </div>
+        <?php endwhile; ?>
     </div>
 </nav>

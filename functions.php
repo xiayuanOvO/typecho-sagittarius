@@ -92,6 +92,11 @@ function themeConfig($form)
     // 侧边栏最近评论数量
     addText($form, 'sidebarRecentCommentsNum', 5, '侧边栏最近评论数量', '侧边栏最近评论数量，默认为5');
 
+    // ================================ 友链页设置 ================================
+    addTitle($form, '友链页设置');
+    addSubTitle($form, '仅在使用「友链」自定义模板的独立页中生效');
+    addText($form, 'friendLinks', '', '友链列表', '每行一条，格式：名称|链接 或 名称|链接|描述。例如：<br>博客A|https://example.com|一个博客<br>博客B|https://b.com');
+
     // setConfigLayoutFooter();
     setStyle();
     setScript();
@@ -421,6 +426,35 @@ function getAllImages($content)
     }
     return $imgList;
 }
+
+/**
+ * 解析主题配置中的友链列表，供友链独立页使用
+ * 格式：每行一条，名称|链接 或 名称|链接|描述
+ *
+ * @return array 元素为 ['name' => string, 'url' => string, 'desc' => string]
+ */
+function getFriendLinks()
+{
+    $options = Helper::options();
+    $raw = $options->friendLinks;
+    if (empty($raw) || !is_string($raw)) {
+        return array();
+    }
+    $lines = array_filter(array_map('trim', explode("\n", $raw)));
+    $list = array();
+    foreach ($lines as $line) {
+        $parts = array_map('trim', explode('|', $line, 3));
+        if (count($parts) >= 2 && $parts[0] !== '' && $parts[1] !== '') {
+            $list[] = array(
+                'name'  => $parts[0],
+                'url'   => $parts[1],
+                'desc'  => isset($parts[2]) ? $parts[2] : '',
+            );
+        }
+    }
+    return $list;
+}
+
 /**
  * 嵌套评论
  * @param mixed $comments
