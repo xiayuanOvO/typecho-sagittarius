@@ -62,10 +62,12 @@ $this->need('header.php');
                 <?php endwhile; ?>
             </div>
 
+            <?php if ($this->is('index')): ?>
             <div id="load-indicator" class="load-indicator">
                 <span class="load-indicator__text"></span>
                 <?php $this->pageLink('', 'next'); ?>
             </div>
+            <?php endif; ?>
         </div>
     </main>
 </div>
