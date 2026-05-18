@@ -9,7 +9,7 @@ $this->need('header.php');
 $friendLinks = getFriendLinks();
 ?>
 
-<div class="site__wrapper">
+<div id="swup" class="site__wrapper">
     <?php $this->need('components/header.php'); ?>
     <main class="site__content">
         <?php $this->need('components/sidebar.php'); ?>

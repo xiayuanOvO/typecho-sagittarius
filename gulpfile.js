@@ -11,7 +11,7 @@ gulp.task('minify-css', () => {
         .pipe(concat('main.css'))       // 合并所有 css
         .pipe(cleanCSS())                 // 执行压缩
         .pipe(rename({ suffix: '.min' })) // 改名为 main.min.css
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest('./assets/dist'));
 });
 
 // 2. 处理 JS：扫描所有 JS 并合并压缩
@@ -20,7 +20,7 @@ gulp.task('minify-js', () => {
         .pipe(concat('app.js'))
         .pipe(terser())                   // 压缩 JS
         .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest('./assets/dist'));
 });
 
 // 3. 自动化监听：文件一动，自动打包

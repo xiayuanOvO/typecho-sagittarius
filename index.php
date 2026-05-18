@@ -8,11 +8,12 @@
  * @version 0.1.0
  * @link https://gitee.com/xiayuanOvO/typecho-sagittarius
  */
-if (!defined('__TYPECHO_ROOT_DIR__')) exit;
+if (!defined('__TYPECHO_ROOT_DIR__'))
+    exit;
 $this->need('header.php');
 ?>
 
-<div class="site__wrapper">
+<div id="swup" class="site__wrapper">
     <?php $this->need('components/header.php'); ?>
     <main class="site__content">
         <?php $this->need('components/sidebar.php'); ?>
@@ -41,7 +42,7 @@ $this->need('header.php');
                             </div>
                             <div class="post__content">
                                 <a href="<?php $this->permalink(); ?>">
-                                <?php $this->excerpt(120, '...'); ?>
+                                    <?php $this->excerpt(120, '...'); ?>
                                 </a>
                                 <div class="post__images">
                                     <?php
@@ -57,16 +58,31 @@ $this->need('header.php');
                                     ?>
                                 </div>
                             </div>
+                            <div class="post__footer">
+                                <div class="footer__item">
+                                    <?php echo getSvg('eye', 'footer__icon'); ?>
+                                    <span><?php viewsNum($this); ?></span>
+                                </div>
+                                <button class="footer__item footer__comment" data-cid="<?php echo $this->cid; ?>" data-url="<?php echo getCommentsUrl(); ?>">
+                                    <?php echo getSvg('comment', 'footer__icon'); ?>
+                                    <span><?php $this->commentsNum('%d'); ?></span>
+                                </button>
+                                <button class="footer__item like-btn" data-cid="<?php echo $this->cid; ?>" data-url="<?php echo getLikeUrl(); ?>">
+                                    <?php echo getSvg('thumbs-up', 'footer__icon'); ?>
+                                    <span class="like-btn__count"><?php echo getAgreeNum($this); ?></span>
+                                </button>
+                            </div>
+                            <div class="post__comments" data-cid="<?php echo $this->cid; ?>"></div>
                         </div>
                     </div>
                 <?php endwhile; ?>
             </div>
 
             <?php if ($this->is('index')): ?>
-            <div id="load-indicator" class="load-indicator">
-                <span class="load-indicator__text"></span>
-                <?php $this->pageLink('', 'next'); ?>
-            </div>
+                <div id="load-indicator" class="load-indicator">
+                    <span class="load-indicator__text"></span>
+                    <?php $this->pageLink('', 'next'); ?>
+                </div>
             <?php endif; ?>
         </div>
     </main>

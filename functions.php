@@ -130,10 +130,10 @@ function getAuthorAvatar($mail, $options)
 // 设置配置布局头部结构（预留）
 function setConfigLayoutHeader()
 {
-    ?>
+?>
 
     <div class="config-content">
-        <?php
+    <?php
 }
 
 // 设置配置布局尾部结构（预留）
@@ -142,145 +142,29 @@ function setConfigLayoutFooter()
     ?>
 
     </div>
-    <?php
+<?php
 }
 
 /**
  * 设置样式
+ * 引入后台管理样式文件
  */
 function setStyle()
 {
-    ?>
-    <style>
-        .typecho-page-main {
-            flex-wrap: nowrap;
-            justify-content: space-between;
-        }
-
-        .typecho-page-main h2 {
-            border-bottom: 2px solid #467b96;
-            padding-bottom: 10px;
-            margin-top: 40px;
-            color: #467b96;
-        }
-
-        /* 侧边栏容器 */
-        .config-sidebar {
-            min-width: 120px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 10px;
-            min-height: 120px;
-            height: min-content;
-
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 200px;
-        }
-
-        .config-sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .config-sidebar li {
-            margin-bottom: 8px;
-        }
-
-        .config-sidebar a {
-            text-decoration: none;
-            color: #666;
-            font-size: 14px;
-            display: block;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: all 0.3s;
-        }
-
-        .config-sidebar a:hover {
-            background-color: #f3f3f3;
-            color: #467b96;
-        }
-
-        .config-sidebar a.active {
-            background-color: #467b96;
-            color: #fff;
-            font-weight: bold;
-        }
-    </style>
-    <?php
+?>
+    <link rel="stylesheet" href="<?php echo Helper::options()->themeUrl; ?>/assets/css/admin.css">
+<?php
 }
 
 /**
  * 设置脚本
+ * 引入后台管理脚本文件
  */
 function setScript()
 {
-    ?>
-    <script>
-        window.onload = function () {
-            var main = document.querySelector('.typecho-page-main');
-
-            if (main) {
-                var sidebar = document.createElement('div');
-                sidebar.className = 'config-sidebar';
-                sidebar.innerHTML = '<ul id="config-nav"></ul>';
-                main.appendChild(sidebar);
-            }
-
-
-            // 背景模式切换
-            var selector = document.getElementsByName('bgMode')[0];
-            var imgContainer = document.getElementsByName('bgImage')[0]?.closest('li');
-            var colorContainer = document.getElementsByName('bgColor')[0]?.closest('li');
-            function updateVisibility() {
-                if (!selector) return;
-                if (selector.value === 'image') {
-                    if (imgContainer) imgContainer.style.display = '';
-                    if (colorContainer) colorContainer.style.display = 'none';
-                } else {
-                    if (imgContainer) imgContainer.style.display = 'none';
-                    if (colorContainer) colorContainer.style.display = '';
-                }
-            }
-            if (selector) selector.onchange = updateVisibility;
-            updateVisibility();
-
-            // 侧边栏
-            const nav = document.getElementById('config-nav');
-            const headers = document.querySelectorAll('.typecho-page-main h2');
-
-            headers.forEach((header, index) => {
-                const id = 'section-' + index;
-                header.setAttribute('id', id);
-
-                const li = document.createElement('li');
-                li.innerHTML = `<a href="#${id}">${header.innerText}</a>`;
-                li.onclick = (e) => {
-                    e.preventDefault();
-                    header.scrollIntoView({ behavior: 'smooth' });
-                };
-                nav.appendChild(li);
-            });
-
-            // 快捷键保存
-            document.addEventListener('keydown', function (e) {
-                if ((e.ctrlKey || e.metaKey) && e.keyCode === 83) {
-                    e.preventDefault();
-                    // 提交
-                    const submitBtn = document.querySelector('button[type="submit"]');
-                    if (submitBtn) {
-                        // submitBtn.innerText = "正在保存...";
-                        // submitBtn.style.opacity = "0.7";
-                        submitBtn.click();
-                    }
-                }
-            });
-        };
-    </script>
-    <?php
+?>
+    <script src="<?php echo Helper::options()->themeUrl; ?>/assets/js/admin.js"></script>
+<?php
 }
 
 /**
@@ -474,17 +358,17 @@ function threadedComments($comments, $options)
         }
     }
 
-    ?>
+?>
     <li id="li-<?php $comments->theId(); ?>" class="comment__item<?php
-      if ($comments->levels > 0) {
-          echo ' child';
-          $comments->levelsAlt(' comment-level-odd', ' comment-level-even');
-      } else {
-          echo ' parent';
-      }
-      $comments->alt(' comment-odd', ' comment-even');
-      echo $commentClass;
-      ?>">
+                                                                    if ($comments->levels > 0) {
+                                                                        echo ' child';
+                                                                        $comments->levelsAlt(' comment-level-odd', ' comment-level-even');
+                                                                    } else {
+                                                                        echo ' parent';
+                                                                    }
+                                                                    $comments->alt(' comment-odd', ' comment-even');
+                                                                    echo $commentClass;
+                                                                    ?>">
         <div class="comment__view">
             <img class="comment__avatar" src="<?php echo htmlspecialchars(getAuthorAvatar($comments->mail, $options)); ?>"
                 alt="<?php echo $author; ?>">
@@ -509,4 +393,82 @@ function threadedComments($comments, $options)
             </div>
         </div>
     </li>
-<?php } ?>
+<?php }
+
+
+/**
+ * 获取点赞数
+ */
+function getAgreeNum($archive)
+{
+    $db = Typecho_Db::get();
+    $field = $db->fetchRow($db->select('str_value')->from('table.fields')->where('cid = ?', $archive->cid)->where('name = ?', 'agree'));
+    return $field ? $field['str_value'] : 0;
+}
+
+/**
+ * 输出浏览量（单篇文章页面自动计数，Cookie 防重复）
+ */
+function viewsNum($widget)
+{
+    $db = Typecho_Db::get();
+    $cid = intval($widget->cid);
+
+    $field = $db->fetchRow(
+        $db->select('str_value')->from('table.fields')
+            ->where('cid = ?', $cid)->where('name = ?', 'views')
+    );
+    $views = $field ? intval($field['str_value']) : 0;
+
+    if ($widget->is('single')) {
+        $vieweds = \Typecho\Cookie::get('contents_viewed');
+        $vieweds = empty($vieweds) ? [] : explode(',', $vieweds);
+
+        if (!in_array(strval($cid), $vieweds)) {
+            $views++;
+            if (!$field) {
+                $db->query($db->insert('table.fields')->rows([
+                    'cid' => $cid, 'name' => 'views', 'type' => 'str',
+                    'str_value' => strval($views),
+                    'int_value' => 0, 'float_value' => 0,
+                ]));
+            } else {
+                $db->query(
+                    $db->update('table.fields')
+                        ->rows(['str_value' => strval($views)])
+                        ->where('cid = ?', $cid)->where('name = ?', 'views')
+                );
+            }
+            $vieweds[] = strval($cid);
+            \Typecho\Cookie::set('contents_viewed', implode(',', $vieweds));
+        }
+    }
+
+    echo $views;
+}
+
+/**
+ * 获取评论接口 URL（根相对路径，避免跨域）
+ *
+ * @return string
+ */
+function getCommentsUrl()
+{
+    $root = rtrim(str_replace('\\', '/', realpath(__TYPECHO_ROOT_DIR__)), '/');
+    $path = $root . '/usr/themes/' . Helper::options()->theme . '/action/comments.php';
+    $docRoot = rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), '/');
+    return substr($path, strlen($docRoot));
+}
+
+/**
+ * 获取点赞接口 URL（根相对路径，避免跨域）
+ *
+ * @return string
+ */
+function getLikeUrl()
+{
+    $root = rtrim(str_replace('\\', '/', realpath(__TYPECHO_ROOT_DIR__)), '/');
+    $themeDir = $root . '/usr/themes/' . Helper::options()->theme . '/action/like.php';
+    $docRoot = rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), '/');
+    return substr($themeDir, strlen($docRoot));
+}

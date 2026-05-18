@@ -10,9 +10,10 @@
                 'tag' => _t('标签 %s 下的文章'),
                 'author' => _t('%s 发布的文章')
             ], '', ' - '); ?><?php $this->options->title(); ?></title>
-    <link rel="stylesheet" href="<?php $this->options->themeUrl('main.min.css'); ?>">
-    <script src="<?php $this->options->themeUrl('app.min.js'); ?>"></script>
+    <link rel="stylesheet" href="<?php $this->options->themeUrl('assets/dist/main.min.css'); ?>">
     <link rel="stylesheet" href="https://unpkg.com/swiper@4.5.1/dist/css/swiper.min.css">
+    <script src="https://unpkg.com/swup@4"></script>
+    <script src="<?php $this->options->themeUrl('assets/dist/app.min.js'); ?>"></script>
 </head>
 <?php if ($this->options->bgMode == 'image'): ?>
 <body style="background-image: url(<?php echo getImageUrl($this->options->bgImage ?? ''); ?>);">

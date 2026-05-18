@@ -19,5 +19,19 @@
         <div class="post__content">
             <?php $this->content(); ?>
         </div>
+        <div class="post__footer">
+            <span class="footer__item">
+                <?php echo getSvg('eye', 'footer__icon'); ?>
+                <span><?php viewsNum($this); ?></span>
+            </span>
+            <span class="footer__item">
+                <?php echo getSvg('comment', 'footer__icon'); ?>
+                <span><?php $this->commentsNum('%d'); ?></span>
+            </span>
+            <button class="like-btn" data-cid="<?php echo $this->cid; ?>" data-url="<?php echo getLikeUrl(); ?>">
+                <?php echo getSvg('thumbs-up', 'like-btn__icon'); ?>
+                <span class="like-btn__count"><?php echo getAgreeNum($this); ?></span>
+            </button>
+        </div>
     </div>
 </article>

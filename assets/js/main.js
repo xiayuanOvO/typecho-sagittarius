@@ -219,6 +219,127 @@ function initCommentEvents() {
   });
 }
 
+// 点赞功能
+function initLikeButtons() {
+  // 恢复已点赞状态
+  document.querySelectorAll(".like-btn").forEach((btn) => {
+    const cid = btn.dataset.cid;
+    if (cid && localStorage.getItem("liked_" + cid)) {
+      btn.classList.add("liked");
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".like-btn");
+    if (!btn) return;
+
+    const cid = btn.dataset.cid;
+    const url = btn.dataset.url;
+    if (!cid || !url) return;
+
+    // 已点赞则忽略
+    if (localStorage.getItem("liked_" + cid)) return;
+
+    // 动画
+    btn.classList.add("animate");
+    setTimeout(() => btn.classList.remove("animate"), 300);
+
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "cid=" + cid,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.count !== undefined) {
+          const countEl = btn.querySelector(".like-btn__count");
+          if (countEl) countEl.textContent = data.count;
+          btn.classList.add("liked");
+          localStorage.setItem("liked_" + cid, "1");
+        }
+      })
+      .catch(() => {});
+  });
+}
+
+// 首页内联评论
+function initInlineComments() {
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".footer__comment");
+    if (!btn) return;
+
+    const cid = btn.dataset.cid;
+    const url = btn.dataset.url;
+    const postItem = btn.closest(".post__item");
+    if (!postItem || !cid || !url) return;
+
+    const container = postItem.querySelector(".post__comments");
+    if (!container) return;
+
+    // 切换显示/隐藏
+    if (container.style.display === "none" || !container.style.display) {
+      container.style.display = "block";
+      // 首次加载
+      if (!container.dataset.loaded) {
+        container.innerHTML = '<div class="inline-comments__loading">加载中...</div>';
+        fetch(url + "?cid=" + cid)
+          .then((res) => res.text())
+          .then((html) => {
+            container.innerHTML = html;
+            container.dataset.loaded = "1";
+            initTextareaHeight();
+          })
+          .catch(() => {
+            container.innerHTML = '<div class="inline-comments__loading">加载失败</div>';
+          });
+      }
+    } else {
+      container.style.display = "none";
+    }
+  });
+
+  // 内联评论提交
+  document.addEventListener("submit", (e) => {
+    const form = e.target.closest(".inline-comments__form");
+    if (!form) return;
+    e.preventDefault();
+
+    const textarea = form.querySelector(".inline-comments__textarea");
+    const text = textarea ? textarea.value.trim() : "";
+    if (!text) return;
+
+    const formData = new FormData(form);
+    const action = form.action;
+    const container = form.closest(".post__comments");
+
+    fetch(action, {
+      method: "POST",
+      body: formData,
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+    })
+      .then((res) => {
+        // 重新加载评论列表
+        if (container) {
+          const cid = container.dataset.cid;
+          const url = container.previousElementSibling
+            ?.querySelector(".footer__comment")?.dataset.url;
+          if (url && cid) {
+            return fetch(url + "?cid=" + cid).then((r) => r.text());
+          }
+        }
+        return null;
+      })
+      .then((html) => {
+        if (html && container) {
+          container.innerHTML = html;
+          container.dataset.loaded = "1";
+          initTextareaHeight();
+        }
+      })
+      .catch(() => {});
+  });
+}
+
 // 移动端导航菜单功能
 function initMobileNav() {
   const mobileToggle = document.querySelector('.site__nav__mobile-toggle');
@@ -257,11 +378,27 @@ function initMobileNav() {
   });
 }
 
-function init() {
+// Pjax 替换内容后需要重新初始化的逻辑（不包含只绑定一次的事件）
+function initPageContent() {
   formatPostDate();
   initTextareaHeight();
   initWaterfall();
+  initLikeButtons();
+  if (typeof Prism !== "undefined") Prism.highlightAll();
+}
+
+function init() {
+  if (typeof Swup !== "undefined") {
+    const swup = new Swup({
+      containers: ["#swup"],
+      hooks: {
+        "page:view": initPageContent,
+      },
+    });
+  }
+  initPageContent();
   initCommentEvents();
+  initInlineComments();
   initMobileNav();
 }
 
